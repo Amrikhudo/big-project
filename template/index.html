@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.min.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/about/home.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>{% block title %}ГЛАВНАЯ{% endblock %}</title>
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-bg"></div>
+        <div class="grid"></div>
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="particles" id="particles"></div>
+        <div class="light-effect light1"></div>
+        <div class="light-effect light2"></div>
+        <div class="light-effect light3"></div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createSearchParticles();
+            simulateProgress();
+            
+            setTimeout(function() {
+              document.querySelector('.preloader').classList.add('show');
+            }, 10);
+            
+            const minDisplayTime = 1200; 
+            const startTime = Date.now();
+            
+            window.addEventListener('load', function() {
+              const elapsedTime = Date.now() - startTime;
+              const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
+              
+              setTimeout(function() {
+                document.body.classList.add('loaded_hiding');
+                
+                setTimeout(function() {
+                  document.body.classList.add('loaded');
+                }, 800); 
+              }, remainingTime); 
+            });
+          });
+
+        function createParticle(container) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+        
+            const size = Math.random() * 4 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+        
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            particle.style.left = `${posX}%`;
+            particle.style.top = `${posY}%`;
+        
+            const translateX = (Math.random() - 0.5) * 200;
+            const translateY = (Math.random() - 0.5) * 200;
+            particle.style.transform = `translate(${translateX}px, ${translateY}px)`;
+        
+            const delay = Math.random() * 15;
+            particle.style.animationDelay = `${delay}s`;
+            
+            container.appendChild(particle);
+            
+            const lifespan = Math.random() * 20000 + 10000;
+            setTimeout(() => {
+                container.removeChild(particle);
+                createParticle(container);
+            }, lifespan);
+        }
+    </script>
+    <div class="preloader">
+        <div class="preloader__container">
+          <div class="preloader__search">
+            <div class="preloader__magnifier">
+              <div class="preloader__lens">
+                <div class="preloader__scan-area">
+                  <div class="preloader__scan-line"></div>
+                </div>
+              </div>
+              <div class="preloader__handle"></div>
+            </div>
+          </div>
+          
+          <div class="preloader__particles" id="preloaderParticles"></div>
+          
+          <div class="preloader__text">
+            Поиск<span>.</span><span>.</span><span>.</span>
+          </div>
+          
+          <div class="preloader__progress-container">
+            <div class="preloader__progress" id="preloaderProgress"></div>
+          </div>
+          
+          <div class="preloader__keywords">
+            <div class="preloader__keyword">Найдено</div>
+            <div class="preloader__keyword">Поиск</div>
+            <div class="preloader__keyword">Пропажа</div>
+            <div class="preloader__keyword">Находка</div>
+          </div>
+        </div>
+      </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createSearchParticles();
+            
+            simulateProgress();
+            
+            window.addEventListener('load', function() {
+              setTimeout(function() {
+                document.body.classList.add('loaded_hiding');
+                
+                setTimeout(function() {
+                  document.body.classList.add('loaded');
+                }, 500);
+              }, 800); 
+            });
+          });
+          
+          function createSearchParticles() {
+            const particlesContainer = document.getElementById('preloaderParticles');
+            const particleCount = 12;
+            
+            for (let i = 0; i < particleCount; i++) {
+              const particle = document.createElement('div');
+              particle.className = 'preloader__particle';
+              
+              const size = Math.random() * 4 + 2;
+              particle.style.width = size + 'px';
+              particle.style.height = size + 'px';
+              
+              const angle = Math.random() * Math.PI * 2;
+              const radius = 50 + Math.random() * 50;
+              const x = Math.cos(angle) * radius + 50;
+              const y = Math.sin(angle) * radius + 50;
+              
+              particle.style.left = x + 'px';
+              particle.style.top = y + 'px';
+              
+              const delay = Math.random() * 4;
+              const duration = 3 + Math.random() * 2;
+              
+              particle.style.animationDelay = delay + 's';
+              particle.style.animationDuration = duration + 's';
+              
+              particlesContainer.appendChild(particle);
+            }
+          }
+          
+          function simulateProgress() {
+            const progressBar = document.getElementById('preloaderProgress');
+            let width = 0;
+            
+            const intervals = [
+              { limit: 30, time: 15 },
+              { limit: 60, time: 30 },
+              { limit: 80, time: 50 },
+              { limit: 90, time: 100 },
+              { limit: 100, time: 200 }
+            ];
+            
+            let currentInterval = 0;
+            
+            const updateProgress = function() {
+              if (width >= 100) {
+                return;
+              }
+              
+              width++;
+              progressBar.style.width = width + '%';
+              
+              if (width >= intervals[currentInterval].limit && currentInterval < intervals.length - 1) {
+                currentInterval++;
+              }
+              
+              if (width < 100 && !document.body.classList.contains('loaded_hiding')) {
+                setTimeout(updateProgress, intervals[currentInterval].time);
+              }
+            };
+            
+            setTimeout(updateProgress, 50);
+          }
+    </script>
+    <div class="help-icon hover-target">
+        <i class="fas fa-comments"></i>
+    </div>
+    
+    <div class="help-popup">
+        <div class="help-popup-header">
+            <div>
+                <h3>Помощник</h3>
+                <div class="bot-status">
+                    <span class="status-indicator"></span>
+                    В сети
+                </div>
+            </div>
+            <span class="help-popup-close">&times;</span>
+        </div>
+        <div class="help-popup-body">
+            <div class="help-messages">
+            </div>
+            
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div class="help-message-input-container">
+                <input type="text" placeholder="Введите сообщение..." id="message-input">
+                <button id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sendButton = document.getElementById('send-button');
+        const messageInput = document.getElementById('message-input');
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = $('#message-input').val().trim();
+            if (message !== '') {
+                $.ajax({
+                    url: '/send_message',
+                    type: 'POST',
+                    data: {message: message},
+                    success: function(response) {
+                        $('#message-input').val('');
+                        displayMessages(response.messages);
+                    }
+                });
+            }
+        }
+        $(document).ready(function() {
+            const helpIcon = $('.help-icon');
+            const helpPopup = $('.help-popup');
+            const helpPopupClose = $('.help-popup-close');
+            const messageInput = $('#message-input');
+            const sendButton = $('#send-button');
+            const messagesContainer = $('.help-messages');
+            const typingIndicator = $('.typing-indicator');
+            
+            helpIcon.html(`
+                <i class="fas fa-comments chat-icon"></i>
+                <i class="fas fa-times close-icon" style="display: none;"></i>
+            `);
+            
+            const chatIcon = helpIcon.find('.chat-icon');
+            const closeIcon = helpIcon.find('.close-icon');
+            
+            helpIcon.on('click', function() {
+                helpPopup.fadeToggle(300);
+                helpPopup.toggleClass('active');
+                
+                if (helpPopup.hasClass('active')) {
+                    chatIcon.fadeOut(150, function() {
+                        closeIcon.fadeIn(150);
+                    });
+                    loadChatHistory();
+                    messageInput.focus();
+                } else {
+                    closeIcon.fadeOut(150, function() {
+                        chatIcon.fadeIn(150);
+                    });
+                }
+            });
+            
+            helpPopupClose.on('click', function() {
+                helpPopup.fadeOut(300);
+                
+                closeIcon.fadeOut(150, function() {
+                    chatIcon.fadeIn(150);
+                });
+                
+                setTimeout(() => {
+                    helpPopup.removeClass('active');
+                }, 300);
+            });
+            
+            messageInput.on('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            sendButton.on('click', function() {
+                sendMessage();
+            });
+            
+            function sendMessage() {
+                const message = messageInput.val().trim();
+                if (message !== '') {
+                    addMessage('user', message);
+                    messageInput.val('');
+                    messageInput.focus();
+                    
+                    showTypingIndicator();
+                    
+                    $.ajax({
+                        url: '/send_message',
+                        type: 'POST',
+                        data: {message: message},
+                        success: function(response) {
+                            setTimeout(function() {
+                                hideTypingIndicator();
+                                
+                                if (response.messages && response.messages.length > 0) {
+                                    const lastMessage = response.messages[response.messages.length - 1];
+                                    if (lastMessage[0] === 'bot') {
+                                        addMessage('bot', lastMessage[1]);
+                                    }
+                                }
+                            }, randomTypingDelay(message));
+                        },
+                        error: function() {
+                            hideTypingIndicator();
+                            addMessage('bot', 'Извините, произошла ошибка. Пожалуйста, попробуйте еще раз.');
+                        }
+                    });
+                }
+            }
+            
+            function addMessage(sender, text) {
+                const time = getCurrentTime();
+                const iconClass = sender === 'user' ? 'fa-user' : 'fa-robot';
+                
+                const formattedText = formatMessageText(text);
+                
+                const messageHTML = `
+                    <div class="help-message ${sender}">
+                        <div class="help-message-avatar">
+                            <i class="fas ${iconClass}"></i>
+                        </div>
+                        <div>
+                            <div class="help-message-text">
+                                ${formattedText}
+                            </div>
+                            <span class="help-message-time">${time}</span>
+                        </div>
+                    </div>
+                `;
+                
+                messagesContainer.append(messageHTML);
+                scrollToBottom();
+            }
+            
+            function formatMessageText(text) {
+                const escaped = $('<div>').text(text).html();
+                
+                const paragraphs = escaped.split(/\n\s*\n/); 
+                
+                if (paragraphs.length > 1) {
+                    return paragraphs.map(p => {
+                        return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+                    }).join('');
+                } else {
+                    return `<p>${escaped.replace(/\n/g, '<br>')}</p>`;
+                }
+            }
+            
+            function loadChatHistory() {
+                $.ajax({
+                    url: '/get_chat_history',
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success && response.messages && response.messages.length > 0) {
+                            messagesContainer.html('');
+                            
+                            response.messages.forEach(function(message) {
+                                const sender = message[0];
+                                const text = message[1];
+                                addMessage(sender, text);
+                            });
+                            
+                            scrollToBottom();
+                        } else {
+                            const welcomeMessage = 'Здравствуйте! Я ваш виртуальный помощник. Чем могу помочь вам сегодня?';
+                            addMessage('bot', welcomeMessage);
+                        }
+                    },
+                    error: function() {
+                        console.error('Не удалось загрузить историю чата');
+                        const welcomeMessage = 'Здравствуйте! Я ваш виртуальный помощник. Чем могу помочь вам сегодня?';
+                        addMessage('bot', welcomeMessage);
+                    }
+                });
+            }
+            
+            function showTypingIndicator() {
+                typingIndicator.css('display', 'flex');
+                scrollToBottom();
+            }
+            
+            function hideTypingIndicator() {
+                typingIndicator.css('display', 'none');
+            }
+        
+            function randomTypingDelay(message) {
+                const baseDelay = 500;
+                const charsPerSecond = 25; 
+                const typingDelay = Math.min(Math.max(message.length * 1000 / charsPerSecond, 1000), 3000);
+                return baseDelay + typingDelay;
+            }
+        
+            function getCurrentTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+        
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                
+                return hours + ':' + minutes;
+            }
+            
+            function scrollToBottom() {
+                messagesContainer.stop().animate({ scrollTop: messagesContainer[0].scrollHeight }, 300);
+            }
+            
+            function checkForNewAnswers() {
+                if (!helpPopup.is(':visible')) return;
+                
+                $.ajax({
+                    url: '/check_admin_answers',
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.has_new_answers && response.answers && response.answers.length > 0) {
+                            response.answers.forEach(function(item) {
+                                const formattedText = `
+                                    <p>По вашему вопросу "<strong>${item.question}</strong>" администратор ответил:</p>
+                                    <p>${formatMessageText(item.answer)}</p>
+                                `;
+                                
+                                const messageHTML = `
+                                    <div class="help-message bot">
+                                        <div class="help-message-avatar">
+                                            <i class="fas fa-robot"></i>
+                                        </div>
+                                        <div>
+                                            <div class="help-message-text">
+                                                ${formattedText}
+                                            </div>
+                                            <span class="help-message-time">${getCurrentTime()}</span>
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                messagesContainer.append(messageHTML);
+                                scrollToBottom();
+                            });
+                        }
+                    }
+                });
+            }
+            
+            setInterval(checkForNewAnswers, 30000);
+            
+            if (helpPopup.is(':visible')) {
+                loadChatHistory();
+            }
+        })
+    </script>
+
+    <header class="site-header">
+        <div class="header__container">
+            <a href="{{ url_for('index') }}" class="header__logo">
+                <i class="fas fa-search"></i>Всё найдётся
+            </a>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="header__nav" id="headerNav">
+                <ul class="nav__menu">
+                    <li class="nav__item">
+                        <a class="nav__link {{ 'active' if request.endpoint == 'index' }}" href="{{ url_for('index') }}">ГЛАВНАЯ</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link {{ 'active' if request.endpoint == 'help' }}" href="{{ url_for('help') }}">ИНСТРУКЦИЯ</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link {{ 'active' if request.endpoint == 'garantiya' }}" href="{{ url_for('garantiya') }}">ГАРАНТИЯ БЕЗОПАСНОСТИ</a>
+                    </li>
+                </ul>
+                
+                      <div class="user-section">
+                        {% if user %}
+                            <div class="username">
+                                <div class="user-avatar">{{ user.username[0] }}</div>
+                                <span>{{ user.username }}</span>
+                                {% if user.is_admin %}
+                                    <span class="admin-badge">Администратор</span>
+                                {% endif %}
+                                <br>
+                            </div>
+                            <div class="auth-links">
+                                <br>
+                                {% if user.is_admin %}
+                                    <a class="auth-link admin-link hover-target" href="{{ url_for('admin_dashboard') }}">
+                                        <i class="fas fa-crown"></i>Админ-панель
+                                    </a>
+                                {% endif %}
+                                <a class="auth-link hover-target" href="{{ url_for('logout') }}">
+                                    <i class="fas fa-sign-out-alt"></i>Выйти
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="auth-links">
+                                <a class="auth-link signup" href="{{ url_for('register') }}">
+                                    <i class="fas fa-user-plus"></i>Регистрация
+                                </a>
+                                <a class="auth-link login" href="{{ url_for('login') }}">
+                                    <i class="fas fa-sign-in-alt"></i>Войти
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+              
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="menu-overlay" id="menuOverlay"></div>
+    
+    
+    <style>
+        .site-header {
+            position: relative;
+            z-index: 9999 !important;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 10000 !important;
+        }
+        
+        .header__nav {
+            z-index: 9998 !important;
+        }
+        
+        .menu-overlay {
+            z-index: 9997 !important;
+        }
+
+        @media (max-width: 992px) {
+            .hamburger-menu {
+                z-index: 999 !important;
+            }
+            
+            .menu-toggle {
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+            }
+            
+            .menu-toggle i {
+                font-size: 24px;
+            }
+        }
+    </style>
+    
+    <script>
+      function checkForNewAnswers() {
+        $.ajax({
+            url: '/check_admin_answers',
+            type: 'GET',
+            success: function(response) {
+                if (response.has_new_answers && response.answers && response.answers.length > 0) {
+                    response.answers.forEach(function(item) {
+                        const messageHTML = `
+                            <div class="help-message bot">
+                                <div class="help-message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div>
+                                    <div class="help-message-text">
+                                        <p>По вашему вопросу "<strong>${item.question}</strong>" администратор ответил:</p>
+                                        <p>${item.answer}</p>
+                                    </div>
+                                    <span class="help-message-time">${getCurrentTime()}</span>
+                                </div>
+                            </div>
+                        `;
+                        
+                        $('.help-messages').append(messageHTML);
+                        scrollToBottom();
+                    });
+                }
+            }
+        });
+    }
+    
+    function getCurrentTime() {
+        const now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+    
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        
+        return hours + ':' + minutes;
+    }
+    
+    setInterval(checkForNewAnswers, 30000);
+    
+    $(document).ready(function() {
+        $('.help-icon').on('click', function() {
+            setTimeout(checkForNewAnswers, 1000);
+        });
+    });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get_chat_history')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML = '';
+                
+                data.messages.forEach(message => {
+                    const senderType = message[0];
+                    const messageText = message[1];
+                    
+                    const messageElement = document.createElement('div');
+                    messageElement.className = senderType === 'user' ? 'user-message' : 'bot-message';
+                    messageElement.textContent = messageText;
+                    chatMessages.appendChild(messageElement);
+                });
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get_chat_history')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML = '';
+                
+                data.messages.forEach(message => {
+                    const senderType = message[0];
+                    const messageText = message[1];
+                    
+                    const messageElement = document.createElement('div');
+                    messageElement.className = senderType === 'user' ? 'user-message' : 'bot-message';
+                    messageElement.textContent = messageText;
+                    chatMessages.appendChild(messageElement);
+                });
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+});
+
+document.getElementById('chat-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const messageInput = document.getElementById('message-input');
+    const message = messageInput.value.trim();
+    
+    if (message) {
+        fetch('/send_message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'message=' + encodeURIComponent(message)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML = '';
+                
+                data.messages.forEach(message => {
+                    const senderType = message[0];
+                    const messageText = message[1];
+                    
+                    const messageElement = document.createElement('div');
+                    messageElement.className = senderType === 'user' ? 'user-message' : 'bot-message';
+                    messageElement.textContent = messageText;
+                    chatMessages.appendChild(messageElement);
+                });
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                messageInput.value = '';
+            }
+        });
+    }
+});
+    </script>
+
+
+    
+
+    <div class="container">
+        <div class="intro__inner">
+            <h2 class="intro__suptitle"></h2>
+            <h1 class="intro__title"></h1>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <div class="section__text">
+                    <h1><font size="6" color="#007bff" face="serif">ВСЕ ОБЪЯВЛЕНИЯ</font></h1>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card__img-container">
+                        <a href="{{ url_for('index3') }}">
+                            <img class="card__img" src="{{ url_for('static', filename='img/about/1.jpg') }}" alt="Пропала кошка">
+                            <div class="card__img-overlay"></div>
+                        </a>
+                        <div class="card__category">Пропажа</div>
+                        <div class="card__action">СВЯЗАТЬСЯ</div>
+                    </div>
+                    <div class="card__content">
+                        <h2 class="card__title">Пропала кошка</h2>
+                        <p class="card__description">Пропала рыжая кошка с белыми лапками по улице Большой Разночинной. Отзывается на кличку "Муся".</p>
+                        <div class="card__price">По договоренности</div>
+                        <div class="card__footer">
+                            <span class="card__date">Опубликовано: 05.04.2025</span>
+                            <a href="{{ url_for('index3') }}" class="card__button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card__img-container">
+                        <a href="{{ url_for('index4') }}">
+                            <img class="card__img" src="{{ url_for('static', filename='img/about/2.jpg') }}" alt="Пропал велосипед">
+                            <div class="card__img-overlay"></div>
+                        </a>
+                        <div class="card__category">Пропажа</div>
+                        <div class="card__action">СВЯЗАТЬСЯ</div>
+                    </div>
+                    <div class="card__content">
+                        <h2 class="card__title">Пропал велосипед</h2>
+                        <p class="card__description">Пропал горный велосипед синего цвета марки Trek. Был оставлен у ТЦ "Атлантик Сити".</p>
+                        <div class="card__price">Вознаграждение!</div>
+                        <div class="card__footer">
+                            <span class="card__date">Опубликовано: 03.04.2025</span>
+                            <a href="{{ url_for('index4') }}" class="card__button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card__img-container">
+                        <a href="{{ url_for('index5') }}">
+                            <img class="card__img" src="{{ url_for('static', filename='img/about/3.jpg') }}" alt="Нашла золотое кольцо">
+                            <div class="card__img-overlay"></div>
+                        </a>
+                        <div class="card__category">Находка</div>
+                        <div class="card__action">СВЯЗАТЬСЯ</div>
+                    </div>
+                    <div class="card__content">
+                        <h2 class="card__title">Нашла золотое кольцо</h2>
+                        <p class="card__description">Найдено золотое кольцо с гравировкой внутри возле кафе "Гриль и бар".</p>
+                        <div class="card__price">Вознаграждение!</div>
+                        <div class="card__footer">
+                            <span class="card__date">Опубликовано: 06.04.2025</span>
+                            <a href="{{ url_for('index5') }}" class="card__button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card__img-container">
+                        <a href="{{ url_for('index6') }}">
+                            <img class="card__img" src="{{ url_for('static', filename='img/about/4.jpg') }}" alt="Пропал кошелек с деньгами">
+                            <div class="card__img-overlay"></div>
+                        </a>
+                        <div class="card__category">Пропажа</div>
+                        <div class="card__action">СВЯЗАТЬСЯ</div>
+                    </div>
+                    <div class="card__content">
+                        <h2 class="card__title">Пропал кошелек с деньгами</h2>
+                        <p class="card__description">Утерян кожаный кошелек синего цвета на Невском проспекте.</p>
+                        <div class="card__price">Вознаграждение гарантировано</div>
+                        <div class="card__footer">
+                            <span class="card__date">Опубликовано: 04.04.2025</span>
+                            <a href="{{ url_for('index6') }}" class="card__button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card__img-container">
+                        <a href="{{ url_for('index7') }}">
+                            <img class="card__img" src="{{ url_for('static', filename='img/about/5.jpg') }}" alt="Нашёл зонтик">
+                            <div class="card__img-overlay"></div>
+                        </a>
+                        <div class="card__category">Находка</div>
+                        <div class="card__action">СВЯЗАТЬСЯ</div>
+                    </div>
+                    <div class="card__content">
+                        <h2 class="card__title">Нашёл зонтик</h2>
+                        <p class="card__description">Найден складной зонт черного цвета в автобусе №42. Особые приметы - черная ручка.</p>
+                        <div class="card__price">Не указано</div>
+                        <div class="card__footer">
+                            <span class="card__date">Опубликовано: 06.04.2025</span>
+                            <a href="{{ url_for('index7') }}" class="card__button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card__img-container">
+                        <a href="{{ url_for('index8') }}">
+                            <img class="card__img" src="{{ url_for('static', filename='img/about/6.jpg') }}" alt="Нашёл ноутбук Dell">
+                            <div class="card__img-overlay"></div>
+                        </a>
+                        <div class="card__category">Находка</div>
+                        <div class="card__action">СВЯЗАТЬСЯ</div>
+                    </div>
+                    <div class="card__content">
+                        <h2 class="card__title">Нашёл ноутбук Dell</h2>
+                        <p class="card__description">Найден ноутбук Dell в кафе на ТЦ Галерея. Для возврата необходимы доказательства владения.</p>
+                        <div class="card__price">По договоренности</div>
+                        <div class="card__footer">
+                            <span class="card__date">Опубликовано: 04.04.2025</span>
+                            <a href="{{ url_for('index8') }}" class="card__button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br><br><br>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <h3 class="footer__col-title">Навигация</h3>
+                    <ul class="footer__col-list">
+                        <li><a href="{{ url_for('index') }}">Главная</a></li>
+                        <li><a href="{{ url_for('help') }}">Инструкция</a></li>
+                        <li><a href="{{ url_for('garantiya') }}">Гарантия безопасности</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__col">
+                    <h3 class="footer__col-title">Контакты</h3>
+                    <ul class="footer__col-list footer__col-list--contacts">
+                        <li><i class="far fa-envelope"></i> <a href="mailto:example@mail.com" class="hover-target">example@mail.com</a></li>
+                        <li><i class="fas fa-phone-alt"></i> <a href="tel:+78005553535" class="hover-target">+7 (800) 555-35-35</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Москва, ул. Примерная, 123</span></li>
+                        <li><i class="far fa-clock"></i> <span>Пн-Пт: 9:00-18:00</span></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__col">
+                    <h3 class="footer__col-title">Присоединяйтесь</h3>
+                    <p class="footer__text">Следите за нашими новостями и обновлениями в социальных сетях</p>
+                    <ul class="footer__col-list footer__col-list--socials">
+                        <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-vk"></i></a></li>
+                        <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-telegram-plane"></i></a></li>
+                        <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-whatsapp"></i></a></li>
+                        <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                    
+                    <div class="footer__newsletter">
+                        <h4 class="footer__subtitle">Подписка на новости</h4>
+                        <form class="footer__form">
+                            <input type="email" placeholder="Ваш email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <div class="footer__copy">
+                    <p>&copy; 2025 "Всё найдётся". Все права защищены.</p>
+                </div>
+                <div class="footer__payments">
+                    <span class="payment-method">VISA</span>
+                    <span class="payment-method">MasterCard</span>
+                    <span class="payment-method">МИР</span>
+                    <span class="payment-method">SberPay</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class='cursor' id="cursor"></div>
+    <div class='cursor2' id="cursor2"></div>
+    <div class='cursor3' id="cursor3"></div>
+
+    <script>
+        (function($) { "use strict";
+            document.getElementsByTagName("body")[0].addEventListener("mousemove", function(n) {
+                t.style.left = n.clientX + "px", 
+                t.style.top = n.clientY + "px", 
+                e.style.left = n.clientX + "px", 
+                e.style.top = n.clientY + "px", 
+                i.style.left = n.clientX + "px", 
+                i.style.top = n.clientY + "px"
+            });
+            var t = document.getElementById("cursor"),
+                e = document.getElementById("cursor2"),
+                i = document.getElementById("cursor3");
+            function n(t) {
+                e.classList.add("hover"), i.classList.add("hover")
+            }
+            function s(t) {
+                e.classList.remove("hover"), i.classList.remove("hover")
+            }
+            s();
+            for (var r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
+                o(r[a])
+            }
+            function o(t) {
+                t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
+            }
+        })(jQuery);
+    </script>
+</body>
+</html>

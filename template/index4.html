@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.min.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" integrity="sha512-k2GFCTbXQgca6ys2/+sahWVaaZChE5npEQNLvI9YsmvaIRVXoPJVETXDBXWViTNV1fEb6eh7OVvRYYrniODJow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>{% block title %}ПРОПАЖА{% endblock %}</title>
+</head>
+<body>
+  <style>
+    body {
+      background-color: #333;
+      font-family: 'Montserrat', sans-serif;
+      color: #e0e0e0;
+    }
+    
+    .intro__inner {
+      padding: 30px 0;
+    }
+    
+    .section {
+      padding: 40px 0;
+    }
+    
+    .pet-card {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      margin-bottom: 40px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .pet-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+    
+    .pet-header {
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 16px 16px 0 0;
+    }
+    
+    .pet-header h1 {
+      margin: 0;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+    
+    .pet-header h1 i {
+      margin-right: 10px;
+      font-size: 2rem;
+    }
+    
+    .pet-body {
+      padding: 30px;
+    }
+    
+    .pet-info {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    
+    .pet-info-item {
+      flex: 1 0 50%;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .pet-info-item i {
+      min-width: 25px;
+      margin-right: 10px;
+      color: #4da6ff;
+      font-size: 1.2rem;
+    }
+    
+    .pet-image {
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+      max-width: 100%;
+      border: 2px solid #2d2d2d;
+    }
+    
+    .pet-image:hover {
+      transform: scale(1.02);
+      border-color: #0077ff;
+    }
+    
+    .feature-card {
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 20px;
+      height: 100%;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 3px solid #0077ff;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      border-left: 3px solid #00a2ff;
+    }
+    
+    .feature-card h1 {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      color: #e0e0e0;
+    }
+    
+    .feature-card h1 i {
+      margin-right: 10px;
+      color: #4da6ff;
+    }
+    
+    .feature-card p {
+      color: #b0b0b0;
+    }
+    
+    .comment-section {
+      background-color: #1e1e1e;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      margin-top: 40px;
+    }
+    
+    .comment-form {
+      background-color: #2d2d2d;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-left: 3px solid #0077ff;
+    }
+    
+    .comment-card {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .comment-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: #2d2d2d;
+      border-bottom: 1px solid #3d3d3d;
+    }
+    
+    .comment-user {
+      display: flex;
+      align-items: center;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+    
+    .comment-body {
+      padding: 20px;
+    }
+    
+    .comment-text {
+      margin-bottom: 15px;
+      color: #e0e0e0;
+    }
+    
+    .comment-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .comment-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      border: 1px solid #3d3d3d;
+    }
+    
+    .comment-image:hover {
+      transform: scale(1.05);
+      border-color: #0077ff;
+    }
+    
+    .comment-footer {
+      padding: 10px 20px;
+      border-top: 1px solid #3d3d3d;
+      color: #888;
+      font-size: 0.85rem;
+    }
+    
+    .btn-comment {
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+    }
+    
+    .btn-comment:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+      background: linear-gradient(135deg, #1a85ff 0%, #14b0ff 100%);
+    }
+    
+    .btn-delete {
+      background-color: #0077ff;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-delete:hover {
+      background-color: #005ecb;
+      transform: translateY(-2px);
+    }
+    
+    /* Form styling */
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #3d3d3d;
+      padding: 12px;
+      transition: all 0.3s ease;
+      background-color: #252525;
+      color: #e0e0e0;
+    }
+    
+    .form-control:focus {
+      border-color: #0077ff;
+      box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.2);
+      background-color: #2a2a2a;
+    }
+    
+    .form-control::placeholder {
+      color: #888;
+    }
+    
+    .form-control-file {
+      padding: 10px 0;
+      color: #b0b0b0;
+    }
+    
+    /* Login/Register prompt */
+    .login-prompt {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      border-top: 3px solid #0077ff;
+    }
+    
+    .login-prompt a {
+      color: #4da6ff;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .login-prompt a:hover {
+      color: #0077ff;
+      text-decoration: underline;
+    }
+    
+    .site-header {
+      background-color: #212121;
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .site-header.sticky {
+      padding: 10px 0;
+      background-color: #212121;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .header__container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    
+    .header__logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .header__logo i {
+      margin-right: 10px;
+      color: #4da6ff;
+    }
+    
+    .header__logo:hover {
+      color: #4da6ff;
+    }
+    
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .menu-toggle:hover {
+      color: #4da6ff;
+    }
+    
+    .header__nav {
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav__menu {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav__item {
+      margin: 0 15px;
+    }
+    
+    .nav__link {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 5px 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav__link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      transition: width 0.3s ease;
+    }
+    
+    .nav__link:hover {
+      color: #4da6ff;
+    }
+    
+    .nav__link:hover::after,
+    .nav__link.active::after {
+      width: 100%;
+    }
+    
+    .nav__link.active {
+      color: #4da6ff;
+    }
+    
+    .user-section {
+      margin-left: 30px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .username {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    
+    .username .user-avatar {
+      margin-right: 8px;
+      width: 30px;
+      height: 30px;
+      font-size: 0.8rem;
+    }
+    
+    .auth-links {
+      display: flex;
+    }
+    
+    .auth-link {
+      display: flex;
+      align-items: center;
+      color: #e0e0e0;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      margin-left: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .auth-link i {
+      margin-right: 5px;
+    }
+    
+    .auth-link.signup {
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      color: white;
+      font-weight: 500;
+    }
+    
+    .auth-link.login {
+      background-color: transparent;
+      border: 1px solid #4da6ff;
+      color: #4da6ff;
+    }
+    
+    .auth-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .auth-link.signup:hover {
+      background: linear-gradient(135deg, #1a85ff 0%, #14b0ff 100%);
+    }
+    
+    .auth-link.login:hover {
+      background-color: rgba(77, 166, 255, 0.1);
+      color: #4da6ff;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    
+
+    .preloader {
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: #121212;
+      z-index: 1001;
+    }
+    
+    .preloader__row {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      width: 70px;
+      height: 70px;
+      margin-top: -35px;
+      margin-left: -35px;
+      text-align: center;
+      animation: preloader-rotate 2s infinite linear;
+    }
+    
+    .preloader__item {
+      position: absolute;
+      display: inline-block;
+      top: 0;
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      border-radius: 100%;
+      width: 35px;
+      height: 35px;
+      animation: preloader-bounce 2s infinite ease-in-out;
+    }
+    
+    .preloader__item:last-child {
+      top: auto;
+      bottom: 0;
+      animation-delay: -1.0s;
+      background: linear-gradient(135deg, #00a2ff 0%, #0077ff 100%);
+    }
+    
+    @keyframes preloader-rotate {
+      100% {
+          transform: rotate(360deg);
+      }
+    }
+    
+    @keyframes preloader-bounce {
+      0%, 100% {
+          transform: scale(0);
+      }
+      50% {
+          transform: scale(1);
+      }
+    }
+    
+    .loaded_hiding .preloader {
+      transition: 0.3s opacity;
+      opacity: 0;
+    }
+    
+    .loaded .preloader {
+      display: none;
+    }
+
+    .footer {
+      background-color: #121212;
+      color: #e0e0e0;
+      padding: 60px 0 30px;
+      position: relative;
+      margin-top: 60px;
+    }
+    
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, #0077ff, #00a2ff, #0077ff);
+    }
+    
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .footer__col {
+      flex: 0 0 30%;
+      padding: 0 15px;
+      margin-bottom: 30px;
+    }
+    
+    .footer__col-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+      color: #e0e0e0;
+    }
+    
+    .footer__col-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+    }
+    
+    .footer__text {
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+    
+    .footer__col-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .footer__col-list li {
+      margin-bottom: 12px;
+    }
+    
+    .footer__col-list li a {
+      color: #b0b0b0;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+      font-size: 14px;
+    }
+    
+    .footer__col-list li a:hover {
+      color: #4da6ff;
+      transform: translateX(5px);
+    }
+    
+    .footer__col-list--contacts li {
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer__col-list--contacts li i {
+      margin-right: 10px;
+      color: #4da6ff;
+      min-width: 16px;
+    }
+    
+    .footer__col-list--socials {
+      display: flex;
+      margin-top: 15px;
+    }
+    
+    .footer__col-list--socials li {
+      margin-right: 15px;
+      margin-bottom: 0;
+    }
+    
+    .footer__col-list--socials li a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      color: #e0e0e0;
+      font-size: 16px;
+    }
+    
+    .footer__col-list--socials li a:hover {
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      transform: translateY(-5px);
+      color: #fff;
+    }
+    
+    .footer__newsletter {
+      margin-top: 25px;
+    }
+    
+    .footer__subtitle {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #e0e0e0;
+    }
+    
+    .footer__form {
+      display: flex;
+      position: relative;
+    }
+    
+    .footer__form input {
+      width: 100%;
+      padding: 10px 15px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      color: #e0e0e0;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    
+    .footer__form input:focus {
+      border-color: #4da6ff;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer__form input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .footer__form button {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .footer__form button:hover {
+      background: linear-gradient(135deg, #1a85ff 0%, #14b0ff 100%);
+      transform: scale(1.1);
+    }
+    
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .footer__copy {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .footer__payments {
+      display: flex;
+      align-items: center;
+    }
+    
+    .payment-method {
+      margin-left: 12px;
+      padding: 3px 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      font-size: 12px;
+      color: #b0b0b0;
+      transition: all 0.3s ease;
+    }
+    
+    .payment-method:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #e0e0e0;
+    }
+
+    @media (max-width: 992px) {
+      .pet-info-item {
+          flex: 1 0 100%;
+      }
+      
+      .footer__col {
+          flex: 0 0 50%;
+      }
+      
+      .header__nav {
+          position: fixed;
+          top: 0;
+          right: -280px;
+          width: 280px;
+          height: 100vh;
+          background-color: #121212;
+          flex-direction: column;
+          justify-content: flex-start;
+          padding: 80px 20px 20px;
+          transition: right 0.3s ease;
+          z-index: 1000;
+          box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .header__nav.active {
+          right: 0;
+      }
+      
+      .nav__menu {
+          flex-direction: column;
+          width: 100%;
+          margin-bottom: 30px;
+      }
+      
+      .nav__item {
+          margin: 10px 0;
+          width: 100%;
+      }
+      
+      .nav__link {
+          display: block;
+          padding: 10px 0;
+          width: 100%;
+      }
+      
+      .user-section {
+          margin-left: 0;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+      }
+      
+      .username {
+          margin-right: 0;
+          margin-bottom: 15px;
+      }
+      
+      .auth-links {
+          flex-direction: column;
+          width: 100%;
+      }
+      
+      .auth-link {
+          margin-left: 0;
+          margin-bottom: 10px;
+          width: 100%;
+          justify-content: center;
+      }
+      
+      .menu-toggle {
+          display: block;
+          z-index: 1001;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .feature-card {
+          margin-bottom: 20px;
+      }
+      
+      .pet-header h1 {
+          font-size: 1.5rem;
+      }
+      
+      .footer {
+          padding: 40px 0 20px;
+      }
+      
+      .footer__col {
+          flex: 0 0 100%;
+          text-align: center;
+      }
+      
+      .footer__col-title::after {
+          left: 50%;
+          transform: translateX(-50%);
+      }
+      
+      .footer__col-list--contacts li {
+          justify-content: center;
+      }
+      
+      .footer__col-list--socials {
+          justify-content: center;
+      }
+      
+      .footer__bottom {
+          flex-direction: column;
+      }
+      
+      .footer__copy {
+          margin-bottom: 15px;
+      }
+      
+      .footer__payments {
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+      
+      .payment-method {
+          margin: 5px;
+      }
+    }
+</style>
+  <div class="preloader">
+    <div class="preloader__row">
+      <div class="preloader__item"></div>
+      <div class="preloader__item"></div>
+    </div>
+  </div>
+  
+  <script>
+    window.onload = function () {
+      document.body.classList.add("loaded_hiding");
+      window.setTimeout(function () {
+        document.body.classList.add("loaded");
+        document.body.classList.remove("loaded_hiding");
+      }, 500);
+    };
+  </script>
+  
+  <header class="site-header">
+    <div class="header__container">
+      <a href="{{ url_for('index') }}" class="header__logo">
+        <i class="fas fa-search"></i>Всё найдётся
+      </a>
+      
+      <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <nav class="header__nav" id="headerNav">
+        <ul class="nav__menu">
+          <li class="nav__item">
+            <a class="nav__link {{ 'active' if request.endpoint == 'index' }}" href="{{ url_for('index') }}">ГЛАВНАЯ</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link {{ 'active' if request.endpoint == 'help' }}" href="{{ url_for('help') }}">ИНСТРУКЦИЯ</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link {{ 'active' if request.endpoint == 'garantiya' }}" href="{{ url_for('garantiya') }}">ГАРАНТИЯ БЕЗОПАСНОСТИ</a>
+          </li>
+        </ul>
+        
+        <div class="user-section">
+          {% if user %}
+            <div class="username">
+              <div class="user-avatar">{{ user.username[0] }}</div>
+              <span>{{ user.username }}</span>
+              <br>
+            </div>
+            <div class="auth-links">
+              <br>
+              <a class="auth-link hover-target" href="{{ url_for('logout') }}">
+                <i class="fas fa-sign-out-alt"></i>Выйти
+              </a>
+            </div>
+          {% else %}
+            <div class="auth-links">
+              <a class="auth-link signup" href="{{ url_for('register') }}">
+                <i class="fas fa-user-plus"></i>Регистрация
+              </a>
+              <a class="auth-link login" href="{{ url_for('login') }}">
+                <i class="fas fa-sign-in-alt"></i>Войти
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="menu-overlay" id="menuOverlay"></div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('menuToggle');
+      const headerNav = document.getElementById('headerNav');
+      const menuOverlay = document.getElementById('menuOverlay');
+      
+      headerNav.classList.remove('active');
+      menuOverlay.classList.remove('active');
+      
+      function toggleMenu() {
+        headerNav.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        document.body.classList.toggle('menu-open');
+      }
+      
+      function closeMenu() {
+        headerNav.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      }
+      
+      if (menuToggle) {
+        const newMenuToggle = menuToggle.cloneNode(true);
+        menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+        
+        newMenuToggle.addEventListener('click', toggleMenu, true);
+        
+        newMenuToggle.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          toggleMenu();
+        }, true);
+      }
+      
+      if (menuOverlay) {
+        const newMenuOverlay = menuOverlay.cloneNode(true);
+        menuOverlay.parentNode.replaceChild(newMenuOverlay, menuOverlay);
+        newMenuOverlay.addEventListener('click', closeMenu, true);
+        newMenuOverlay.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          closeMenu();
+        }, true);
+      }
+      
+      const navLinks = document.querySelectorAll('.nav__link');
+      navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          setTimeout(closeMenu, 100);
+        });
+      });
+      
+      const header = document.querySelector('.site-header');
+      const scrollThreshold = 100;
+      
+      if (window.scrollY <= scrollThreshold) {
+        header.classList.remove('sticky');
+      } else {
+        header.classList.add('sticky');
+      }
+      
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > scrollThreshold) {
+          header.classList.add('sticky');
+        } else {
+          header.classList.remove('sticky');
+        }
+      });
+    });
+  </script>
+  
+  <div class="container">
+    <div class="intro__inner">
+      <h2 class="intro__suptitle"></h2>
+      <h1 class="intro__title"></h1>
+    </div>
+  </div>
+  
+  <section class="section">
+    <div class="container">
+      <h1 class="text-center mb-5" style="color: #0077ff; font-family: 'Montserrat', serif; font-weight: 700; font-size: 3rem;">Пропажа</h1>
+  
+      <div class="row mb-5">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <div class="feature-card">
+            <h1><i class="bi bi-lightning-charge-fill"></i> Оперативное размещение</h1>
+            <p>Ваше объявление появится на сайте в течение нескольких минут! Просто заполните форму — и мы сразу опубликуем его.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="feature-card">
+            <h1><i class="bi bi-shield-fill-check"></i> Безопасность и проверка</h1>
+            <p>Каждое объявление проверяется модерацией. Мы заботимся о том, чтобы никакого мошенничества — только реальные находки и потери.</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="pet-card">
+        <div class="pet-header">
+          <h1><i class="fas fa-bike"></i> ПРОПАЛ ВЕЛОСИПЕД</h1>
+        </div>
+        <div class="pet-body">
+          <div class="row">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+              <img src="{{ url_for('static', filename='img/about/2.jpg') }}" alt="Пропал велик" class="pet-image img-fluid">
+            </div>
+            <div class="col-lg-7">
+              <div class="pet-info">
+                <div class="pet-info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <strong>Место:</strong><br>
+                    Санкт-Петербург, Приморский район, у ТЦ "Атлантик Сити"
+                  </div>
+                </div>
+                <div class="pet-info-item">
+                  <i class="far fa-calendar-alt"></i>
+                  <div>
+                    <strong>Дата:</strong><br>
+                    1 апреля 2025
+                  </div>
+                </div>
+                <div class="pet-info-item">
+                  <i class="fas fa-bike"></i>
+                  <div>
+                    <strong>Описание:</strong><br>
+                    Исчез велосипед с парковки возле торгового центра между 18:00 и 19:30.<br>
+                    Модель: Merida Big Nine 300<br>
+                    Размер рамы: 19 дюймов<br>
+                    На раме — наклейка с надписью "RIDE FAST"<br>
+                    Нашедшему — вознаграждение гарантировано.
+                  </div>
+                </div>
+                <div class="pet-info-item">
+                  <i class="fas fa-phone-alt"></i>
+                  <div>
+                    <strong>Контакты:</strong><br>
+                    +7 (921) 456-78-90<br>
+                    Telegram: @найтивелик
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="comment-section">
+        <h2 class="mb-4">Комментарии</h2>
+        
+        {% if user %}
+        <div class="comment-form">
+            <form method="POST" action="{{ url_for('add_review', product='Пропал велосипед') }}" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Ваш комментарий:</label>
+                    <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Напишите ваш комментарий здесь..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="images" class="form-label">Загрузить изображения:</label>
+                    <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+                </div>
+                <button type="submit" class="btn-comment">
+                    <i class="far fa-paper-plane me-2"></i>Отправить комментарий
+                </button>
+            </form>
+        </div>
+    
+        {% for review in reviews %}
+            {% if not review.parent_id %}
+            <div class="comment-card {% if review.pinned %}pinned{% endif %}" id="comment-{{ review.id }}">
+                <div class="comment-header">
+                    <div class="comment-user">
+                        <div class="user-avatar {% if review.user.is_admin %}admin-avatar{% endif %}">{{ review.user.username[0] }}</div>
+                        <h5 class="mb-0">
+                            {{ review.user.username }}
+                            {% if review.user.is_admin %}
+                                <span class="admin-badge">Администратор</span>
+                            {% endif %}
+                            {% if review.pinned %}
+                                <span class="pinned-badge"><i class="fas fa-thumbtack me-1"></i>Закреплено</span>
+                            {% endif %}
+                        </h5>
+                    </div>
+                    <div class="comment-actions">
+                        {% if user and user.is_admin %}
+                            <form method="POST" action="{{ url_for('toggle_pin_review', review_id=review.id) }}" class="d-inline-block me-2">
+                                <button type="submit" class="btn-pin {% if review.pinned %}pinned{% endif %}">
+                                    <i class="fas fa-thumbtack me-1"></i>
+                                    {% if review.pinned %}Открепить{% else %}Закрепить{% endif %}
+                                </button>
+                            </form>
+                        {% endif %}
+                        {% if user and (review.user_id == user.id or user.is_admin) %}
+                            <form method="POST" action="{{ url_for('delete_review', review_id=review.id) }}" class="d-inline-block">
+                                <button type="submit" class="btn-delete">
+                                    <i class="far fa-trash-alt me-1"></i>Удалить
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="comment-body">
+                    <p class="comment-text">{{ review.comment }}</p>
+                    {% if review.images.count() > 0 %}
+                        <div class="comment-images">
+                            {% for image in review.images %}
+                                <a href="{{ url_for('static', filename='uploads/' + image.filename) }}" data-lightbox="review-images-{{ review.id }}">
+                                    <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" class="comment-image" alt="Изображение комментария">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="comment-footer">
+                    <i class="far fa-clock me-1"></i>{{ review.created_at.strftime('%d.%m.%Y в %H:%M') }}
+                    <button class="btn-reply" onclick="showReplyForm({{ review.id }})">
+                        <i class="fas fa-reply me-1"></i>Ответить
+                    </button>
+                </div>
+                
+                <div class="reply-form" id="reply-form-{{ review.id }}" style="display: none;">
+                    {% if user %}
+                        <form method="POST" action="{{ url_for('add_reply', review_id=review.id) }}">
+                            <div class="mb-3">
+                                <textarea class="form-control" name="reply_comment" rows="2" placeholder="Напишите ваш ответ..."></textarea>
+                            </div>
+                            <button type="submit" class="btn-comment">Отправить ответ</button>
+                            <button type="button" class="btn-cancel" onclick="hideReplyForm({{ review.id }})">Отмена</button>
+                        </form>
+                    {% endif %}
+                </div>
+    
+                {% if review.replies.count() > 0 %}
+                    <div class="replies">
+                        {% for reply in review.replies %}
+                            <div class="reply-card">
+                                <div class="reply-header">
+                                    <div class="comment-user">
+                                        <div class="user-avatar {% if reply.user.is_admin %}admin-avatar{% endif %}">{{ reply.user.username[0] }}</div>
+                                        <h6 class="mb-0">
+                                            {{ reply.user.username }}
+                                            {% if reply.user.is_admin %}
+                                                <span class="admin-badge">Администратор</span>
+                                            {% endif %}
+                                        </h6>
+                                    </div>
+                                    {% if user and (reply.user_id == user.id or user.is_admin) %}
+                                        <form method="POST" action="{{ url_for('delete_review', review_id=reply.id) }}">
+                                            <button type="submit" class="btn-delete btn-sm">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                                <div class="reply-body">
+                                    <p>{{ reply.comment }}</p>
+                                </div>
+                                <div class="reply-footer">
+                                    <i class="far fa-clock me-1"></i>{{ reply.created_at.strftime('%d.%m.%Y в %H:%M') }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% else %}
+            <div class="login-prompt">
+                <i class="fas fa-user-lock mb-3" style="font-size: 2rem; color: #0077ff;"></i>
+                <h4>Присоединитесь к обсуждению</h4>
+                <p>Чтобы оставить комментарий, пожалуйста, <a href="{{ url_for('login') }}" class="hover-target">войдите</a> или <a href="{{ url_for('register') }}" class="hover-target">зарегистрируйтесь</a>.</p>
+            </div>
+        {% endif %}
+    </div>
+  </section>
+
+  <script>
+    function showReplyForm(reviewId) {
+      document.getElementById('reply-form-' + reviewId).style.display = 'block';
+    }
+    
+    function hideReplyForm(reviewId) {
+      document.getElementById('reply-form-' + reviewId).style.display = 'none';
+    }
+  </script>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__col">
+          <h3 class="footer__col-title">Навигация</h3>
+          <ul class="footer__col-list">
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            <li><a href="{{ url_for('help') }}">Инструкция</a></li>
+            <li><a href="{{ url_for('garantiya') }}">Гарантия безопасности</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer__col">
+          <h3 class="footer__col-title">Контакты</h3>
+          <ul class="footer__col-list footer__col-list--contacts">
+            <li><i class="far fa-envelope"></i> <a href="mailto:example@mail.com" class="hover-target">example@mail.com</a></li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:+78005553535" class="hover-target">+7 (800) 555-35-35</a></li>
+            <li><i class="fas fa-map-marker-alt"></i> <span>Москва, ул. Примерная, 123</span></li>
+            <li><i class="far fa-clock"></i> <span>Пн-Пт: 9:00-18:00</span></li>
+          </ul>
+        </div>
+        
+        <div class="footer__col">
+          <h3 class="footer__col-title">Присоединяйтесь</h3>
+          <p class="footer__text">Следите за нашими новостями и обновлениями в социальных сетях</p>
+          <ul class="footer__col-list footer__col-list--socials">
+            <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-vk"></i></a></li>
+            <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-telegram-plane"></i></a></li>
+            <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-whatsapp"></i></a></li>
+            <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-instagram"></i></a></li>
+          </ul>
+          
+          <div class="footer__newsletter">
+            <h4 class="footer__subtitle">Подписка на новости</h4>
+            <form class="footer__form">
+              <input type="email" placeholder="Ваш email" required>
+              <button type="submit"><i class="fas fa-paper-plane"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer__bottom">
+        <div class="footer__copy">
+          <p>&copy; 2025 "Всё найдётся". Все права защищены.</p>
+        </div>
+        <div class="footer__payments">
+          <span class="payment-method">VISA</span>
+          <span class="payment-method">MasterCard</span>
+          <span class="payment-method">МИР</span>
+          <span class="payment-method">SberPay</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <script>
+    (function($) { "use strict";
+      document.getElementsByTagName("body")[0].addEventListener("mousemove", function(n) {
+        t.style.left = n.clientX + "px", 
+        t.style.top = n.clientY + "px", 
+        e.style.left = n.clientX + "px", 
+        e.style.top = n.clientY + "px", 
+        i.style.left = n.clientX + "px", 
+        i.style.top = n.clientY + "px"
+      });
+      
+      var t = document.getElementById("cursor"),
+          e = document.getElementById("cursor2"),
+          i = document.getElementById("cursor3");
+          
+      function n(t) {
+        e.classList.add("hover"), i.classList.add("hover")
+      }
+      function s(t) {
+        e.classList.remove("hover"), i.classList.remove("hover")
+      }
+      s();
+      for (var r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
+        o(r[a])
+      }
+      function o(t) {
+        t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
+      }
+    })(jQuery); 
+  </script> 
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

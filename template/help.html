@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/about/help.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>{% block title %}ПОМОЩЬ{% endblock %}</title>
+</head>
+<body>
+  <div class="background-container">
+    <div class="gradient-bg"></div>
+    <div class="grid"></div>
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="particles" id="particles"></div>
+    <div class="light-effect light1"></div>
+    <div class="light-effect light2"></div>
+    <div class="light-effect light3"></div>
+</div>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 15; 
+
+        for (let i = 0; i < particleCount; i++) {
+            createParticle(particlesContainer);
+        }
+    });
+
+    function createParticle(container) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 4 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        
+        const translateX = (Math.random() - 0.5) * 200;
+        const translateY = (Math.random() - 0.5) * 200;
+        particle.style.transform = `translate(${translateX}px, ${translateY}px)`;
+        
+        const delay = Math.random() * 15;
+        particle.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(particle);
+        
+        const lifespan = Math.random() * 20000 + 10000;
+        setTimeout(() => {
+            container.removeChild(particle);
+            createParticle(container)
+        }, lifespan);
+    }
+</script>
+
+
+
+<script>
+    window.onload = function () {
+      document.body.classList.add("loaded");
+    };
+   </script>
+   <div class="preloader">
+    <div class="preloader__container">
+      <div class="preloader__search">
+        <div class="preloader__magnifier">
+          <div class="preloader__lens">
+            <div class="preloader__scan-area">
+              <div class="preloader__scan-line"></div>
+            </div>
+          </div>
+          <div class="preloader__handle"></div>
+        </div>
+      </div>
+      
+      <div class="preloader__particles" id="preloaderParticles"></div>
+      
+      <div class="preloader__text">
+        Поиск<span>.</span><span>.</span><span>.</span>
+      </div>
+      
+      <div class="preloader__progress-container">
+        <div class="preloader__progress" id="preloaderProgress"></div>
+      </div>
+      
+      <div class="preloader__keywords">
+        <div class="preloader__keyword">Найдено</div>
+        <div class="preloader__keyword">Поиск</div>
+        <div class="preloader__keyword">Пропажа</div>
+        <div class="preloader__keyword">Находка</div>
+      </div>
+    </div>
+  </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        createSearchParticles();
+        
+        simulateProgress();
+        
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            document.body.classList.add('loaded_hiding');
+            
+            setTimeout(function() {
+              document.body.classList.add('loaded');
+            }, 500);
+          }, 800); 
+        });
+      });
+      
+      function createSearchParticles() {
+        const particlesContainer = document.getElementById('preloaderParticles');
+        const particleCount = 12;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'preloader__particle';
+          
+          const size = Math.random() * 4 + 2;
+          particle.style.width = size + 'px';
+          particle.style.height = size + 'px';
+          
+          const angle = Math.random() * Math.PI * 2;
+          const radius = 50 + Math.random() * 50;
+          const x = Math.cos(angle) * radius + 50;
+          const y = Math.sin(angle) * radius + 50;
+          
+          particle.style.left = x + 'px';
+          particle.style.top = y + 'px';
+          
+          const delay = Math.random() * 4;
+          const duration = 3 + Math.random() * 2;
+          
+          particle.style.animationDelay = delay + 's';
+          particle.style.animationDuration = duration + 's';
+          
+          particlesContainer.appendChild(particle);
+        }
+      }
+      
+      function simulateProgress() {
+        const progressBar = document.getElementById('preloaderProgress');
+        let width = 0;
+        
+        const intervals = [
+          { limit: 30, time: 15 },
+          { limit: 60, time: 30 },
+          { limit: 80, time: 50 },
+          { limit: 90, time: 100 },
+          { limit: 100, time: 200 }
+        ];
+        
+        let currentInterval = 0;
+        
+        const updateProgress = function() {
+          if (width >= 100) {
+            return;
+          }
+          
+          width++;
+          progressBar.style.width = width + '%';
+          
+          if (width >= intervals[currentInterval].limit && currentInterval < intervals.length - 1) {
+            currentInterval++;
+          }
+          
+          if (width < 100 && !document.body.classList.contains('loaded_hiding')) {
+            setTimeout(updateProgress, intervals[currentInterval].time);
+          }
+        };
+        
+        setTimeout(updateProgress, 50);
+      }
+</script>
+  
+  <header class="site-header">
+    <div class="header__container">
+      <a href="{{ url_for('index') }}" class="header__logo">
+            <i class="fas fa-search"></i>Всё найдётся
+          </a>
+      <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav class="header__nav" id="headerNav">
+        <ul class="nav__menu">
+          <li class="nav__item">
+            <a class="nav__link {{ 'active' if request.endpoint == 'index' }}" href="{{ url_for('index') }}">ГЛАВНАЯ</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link {{ 'active' if request.endpoint == 'help' }}" href="{{ url_for('help') }}">ИНСТРУКЦИЯ</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link {{ 'active' if request.endpoint == 'garantiya' }}" href="{{ url_for('garantiya') }}">ГАРАНТИЯ БЕЗОПАСНОСТИ</a>
+          </li>
+        </ul>
+
+        <div class="user-section">
+          {% if user %}
+            <div class="username">
+              <div class="user-avatar">{{ user.username[0] }}</div>
+              <span>{{ user.username }}</span>
+              <br>
+            </div>
+            <div class="auth-links">
+                <br>
+              <a class="auth-link hover-target" href="{{ url_for('logout') }}">
+                <i class="fas fa-sign-out-alt"></i>Выйти
+              </a>
+            </div>
+          {% else %}
+            <div class="auth-links">
+              <a class="auth-link signup" href="{{ url_for('register') }}">
+                <i class="fas fa-user-plus"></i>Регистрация
+              </a>
+              <a class="auth-link login" href="{{ url_for('login') }}">
+                <i class="fas fa-sign-in-alt"></i>Войти
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="menu-overlay" id="menuOverlay"></div>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('menuToggle');
+        const headerNav = document.getElementById('headerNav');
+        const menuOverlay = document.getElementById('menuOverlay');
+        
+        headerNav.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        
+        function toggleMenu() {
+          console.log('Toggle menu clicked'); 
+          headerNav.classList.toggle('active');
+          menuOverlay.classList.toggle('active');
+          document.body.classList.toggle('menu-open');
+        }
+        
+        function closeMenu() {
+          headerNav.classList.remove('active');
+          menuOverlay.classList.remove('active');
+          document.body.classList.remove('menu-open');
+        }
+        
+        if (menuToggle) {
+          const newMenuToggle = menuToggle.cloneNode(true);
+          menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+          
+          newMenuToggle.addEventListener('click', toggleMenu, true);
+          
+          newMenuToggle.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            toggleMenu();
+          }, true);
+        }
+        
+        if (menuOverlay) {
+          const newMenuOverlay = menuOverlay.cloneNode(true);
+          menuOverlay.parentNode.replaceChild(newMenuOverlay, menuOverlay);
+          newMenuOverlay.addEventListener('click', closeMenu, true);
+          newMenuOverlay.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            closeMenu();
+          }, true);
+        }
+        
+        const navLinks = document.querySelectorAll('.nav__link');
+        navLinks.forEach(function(link) {
+          link.addEventListener('click', function() {
+            setTimeout(closeMenu, 100);
+          });
+        });
+        
+        const header = document.querySelector('.site-header');
+        const scrollThreshold = 100;
+        
+        if (window.scrollY <= scrollThreshold) {
+          header.classList.remove('sticky');
+        } else {
+          header.classList.add('sticky');
+        }
+        
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > scrollThreshold) {
+            header.classList.add('sticky');
+          } else {
+            header.classList.remove('sticky');
+          }
+        });
+      });
+    </script>
+
+<br><br>
+
+            <button class="nav-toggle" type="button">
+                <span class="nav-toggle__item">МЕНЮ</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+
+    <div class="container">
+        <div class="intro__inner">
+            <h2 class="intro__suptitle"></h2>
+        <h1 class="intro__title"></h1>
+        </div>
+    </div>
+
+    <style>
+      header {
+          color: white;
+          padding: 10px 0;
+          text-align: center;
+      }
+
+
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Инструкция по использованию сайта "Всё найдётся"</h1>
+</header>
+
+<div class="container">
+  <p style="color: #fff"; text-align: center>Добро пожаловать на сайт "Всё найдётся"! Мы помогаем вернуть потерянные вещи и найти найденные. Вот как это работает:</p>
+
+  <h2 style="color: #fff">1. Просмотр пропаж и находок</h2>
+  <p style="color: #fff">На главной странице вы увидите все текущие объявления о пропавших и найденных вещах. Каждое объявление содержит:</p>
+  <ul>
+      <li style="color: #fff"><b>Описание вещи</b> — что это за предмет.</li>
+      <li style="color: #fff"><b>Дата и место</b> — когда и где была потеряна или найдена вещь.</li>
+      <li style="color: #fff"><b>Контакты владельца или нашедшего</b> — как с ними можно связаться.</li>
+  </ul>
+
+  <h2 style="color: #fff">2. Как вернуть вещь?</h2>
+  <p style="color: #fff">Если вы нашли свою потерянную вещь:</p>
+  <ul>
+      <li style="color: #fff">Найдите объявление с описанием вашей вещи и свяжитесь с человеком, который её потерял.</li>
+  </ul>
+
+  <h2 style="color: #fff">3. Как вернуть найденную вещь?</h2>
+  <p style="color: #fff">Если вы нашли чью-то вещь:</p>
+  <ul>
+      <li style="color: #fff">Найдите информацию о том, кто потерял этот предмет, и свяжитесь с владельцем через указанные контакты.</li>
+  </ul>
+
+  <h2 style="color: #fff">4. Безопасность и конфиденциальность</h2>
+  <p style="color: #fff">Мы ценим вашу безопасность. Все личные данные, такие как контактная информация, доступны только тем, кто непосредственно заинтересован в возвращении потерянных вещей.</p>
+
+  <h2 style="color: #fff">5. Часто задаваемые вопросы (FAQ)</h2>
+  <p style="color: #fff">Если у вас возникли дополнительные вопросы, ознакомьтесь с разделом "FAQ". Мы собрали ответы на самые часто задаваемые вопросы, чтобы вам было проще разобраться, как работает наш сайт.</p>
+</div>
+
+       <br><br><br>
+
+       <footer class="footer">
+        <div class="container">
+          <div class="footer__inner">
+            <div class="footer__col">
+              <h3 class="footer__col-title">Навигация</h3>
+              <ul class="footer__col-list">
+                <li><a href="{{ url_for('index') }}">Главная</a></li>
+                <li><a href="{{ url_for('help') }}">Инструкция</a></li>
+                <li><a href="{{ url_for('garantiya') }}">Гарантия безопасности</a></li>
+              </ul>
+            </div>
+            
+            <div class="footer__col">
+              <h3 class="footer__col-title">Контакты</h3>
+              <ul class="footer__col-list footer__col-list--contacts">
+                <li><i class="far fa-envelope"></i> <a href="mailto:example@mail.com" class="hover-target">example@mail.com</a></li>
+                <li><i class="fas fa-phone-alt"></i> <a href="tel:+78005553535" class="hover-target">+7 (800) 555-35-35</a></li>
+                <li><i class="fas fa-map-marker-alt"></i> <span>Москва, ул. Примерная, 123</span></li>
+                <li><i class="far fa-clock"></i> <span>Пн-Пт: 9:00-18:00</span></li>
+              </ul>
+            </div>
+            
+            <div class="footer__col">
+              <h3 class="footer__col-title">Присоединяйтесь</h3>
+              <p class="footer__text">Следите за нашими новостями и обновлениями в социальных сетях</p>
+              <ul class="footer__col-list footer__col-list--socials">
+                <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-vk"></i></a></li>
+                <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-telegram-plane"></i></a></li>
+                <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-whatsapp"></i></a></li>
+                <li><a href="#" target="_blank" class="hover-target"><i class="fab fa-instagram"></i></a></li>
+              </ul>
+              
+              <div class="footer__newsletter">
+                <h4 class="footer__subtitle">Подписка на новости</h4>
+                <form class="footer__form">
+                  <input type="email" placeholder="Ваш email" required>
+                  <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+          <div class="footer__bottom">
+            <div class="footer__copy">
+                <p>&copy; 2025 "Всё найдётся". Все права защищены.</p>
+            </div>
+            <div class="footer__payments">
+              <span class="payment-method">VISA</span>
+              <span class="payment-method">MasterCard</span>
+              <span class="payment-method">МИР</span>
+              <span class="payment-method">SberPay</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+
+  <script>
+
+    (function($) { "use strict";
+        
+  
+      document.getElementsByTagName("body")[0].addEventListener("mousemove", function(n) {
+          t.style.left = n.clientX + "px", 
+      t.style.top = n.clientY + "px", 
+      e.style.left = n.clientX + "px", 
+      e.style.top = n.clientY + "px", 
+      i.style.left = n.clientX + "px", 
+      i.style.top = n.clientY + "px"
+      });
+      var t = document.getElementById("cursor"),
+          e = document.getElementById("cursor2"),
+          i = document.getElementById("cursor3");
+      function n(t) {
+          e.classList.add("hover"), i.classList.add("hover")
+      }
+      function s(t) {
+          e.classList.remove("hover"), i.classList.remove("hover")
+      }
+      s();
+      for (var r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
+          o(r[a])
+      }
+      function o(t) {
+          t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
+      }
+  })(jQuery); 
+      </script> 
+
+</body>
+</html>
