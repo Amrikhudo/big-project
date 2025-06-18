@@ -6,12 +6,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/card.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" integrity="sha512-k2GFCTbXQgca6ys2/+sahWVaaZChE5npEQNLvI9YsmvaIRVXoPJVETXDBXWViTNV1fEb6eh7OVvRYYrniODJow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -286,6 +285,7 @@
       color: #b0b0b0;
     }
     
+    /* Login/Register prompt */
     .login-prompt {
       background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
       border-radius: 12px;
@@ -561,6 +561,339 @@
       display: none;
     }
 
+    .footer {
+      background-color: #121212;
+      color: #e0e0e0;
+      padding: 60px 0 30px;
+      position: relative;
+      margin-top: 60px;
+    }
+    
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, #0077ff, #00a2ff, #0077ff);
+    }
+    
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .footer__col {
+      flex: 0 0 30%;
+      padding: 0 15px;
+      margin-bottom: 30px;
+    }
+    
+    .footer__col-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+      color: #e0e0e0;
+    }
+    
+    .footer__col-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+    }
+    
+    .footer__text {
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+    
+    .footer__col-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .footer__col-list li {
+      margin-bottom: 12px;
+    }
+    
+    .footer__col-list li a {
+      color: #b0b0b0;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+      font-size: 14px;
+    }
+    
+    .footer__col-list li a:hover {
+      color: #4da6ff;
+      transform: translateX(5px);
+    }
+    
+    .footer__col-list--contacts li {
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer__col-list--contacts li i {
+      margin-right: 10px;
+      color: #4da6ff;
+      min-width: 16px;
+    }
+    
+    .footer__col-list--socials {
+      display: flex;
+      margin-top: 15px;
+    }
+    
+    .footer__col-list--socials li {
+      margin-right: 15px;
+      margin-bottom: 0;
+    }
+    
+    .footer__col-list--socials li a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      color: #e0e0e0;
+      font-size: 16px;
+    }
+    
+    .footer__col-list--socials li a:hover {
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      transform: translateY(-5px);
+      color: #fff;
+    }
+    
+    .footer__newsletter {
+      margin-top: 25px;
+    }
+    
+    .footer__subtitle {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #e0e0e0;
+    }
+    
+    .footer__form {
+      display: flex;
+      position: relative;
+    }
+    
+    .footer__form input {
+      width: 100%;
+      padding: 10px 15px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      color: #e0e0e0;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    
+    .footer__form input:focus {
+      border-color: #4da6ff;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer__form input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .footer__form button {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      background: linear-gradient(135deg, #0077ff 0%, #00a2ff 100%);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .footer__form button:hover {
+      background: linear-gradient(135deg, #1a85ff 0%, #14b0ff 100%);
+      transform: scale(1.1);
+    }
+    
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .footer__copy {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .footer__payments {
+      display: flex;
+      align-items: center;
+    }
+    
+    .payment-method {
+      margin-left: 12px;
+      padding: 3px 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      font-size: 12px;
+      color: #b0b0b0;
+      transition: all 0.3s ease;
+    }
+    
+    .payment-method:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #e0e0e0;
+    }
+
+    @media (max-width: 992px) {
+      .pet-info-item {
+          flex: 1 0 100%;
+      }
+      
+      .footer__col {
+          flex: 0 0 50%;
+      }
+      
+      .header__nav {
+          position: fixed;
+          top: 0;
+          right: -280px;
+          width: 280px;
+          height: 100vh;
+          background-color: #121212;
+          flex-direction: column;
+          justify-content: flex-start;
+          padding: 80px 20px 20px;
+          transition: right 0.3s ease;
+          z-index: 1000;
+          box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .header__nav.active {
+          right: 0;
+      }
+      
+      .nav__menu {
+          flex-direction: column;
+          width: 100%;
+          margin-bottom: 30px;
+      }
+      
+      .nav__item {
+          margin: 10px 0;
+          width: 100%;
+      }
+      
+      .nav__link {
+          display: block;
+          padding: 10px 0;
+          width: 100%;
+      }
+      
+      .user-section {
+          margin-left: 0;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+      }
+      
+      .username {
+          margin-right: 0;
+          margin-bottom: 15px;
+      }
+      
+      .auth-links {
+          flex-direction: column;
+          width: 100%;
+      }
+      
+      .auth-link {
+          margin-left: 0;
+          margin-bottom: 10px;
+          width: 100%;
+          justify-content: center;
+      }
+      
+      .menu-toggle {
+          display: block;
+          z-index: 1001;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .feature-card {
+          margin-bottom: 20px;
+      }
+      
+      .pet-header h1 {
+          font-size: 1.5rem;
+      }
+      
+      .footer {
+          padding: 40px 0 20px;
+      }
+      
+      .footer__col {
+          flex: 0 0 100%;
+          text-align: center;
+      }
+      
+      .footer__col-title::after {
+          left: 50%;
+          transform: translateX(-50%);
+      }
+      
+      .footer__col-list--contacts li {
+          justify-content: center;
+      }
+      
+      .footer__col-list--socials {
+          justify-content: center;
+      }
+      
+      .footer__bottom {
+          flex-direction: column;
+      }
+      
+      .footer__copy {
+          margin-bottom: 15px;
+      }
+      
+      .footer__payments {
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+      
+      .payment-method {
+          margin: 5px;
+      }
+    }
 </style>
   <div class="preloader">
     <div class="preloader__row">
@@ -733,7 +1066,9 @@
             <div class="pet-body">
                 <div class="row">
                     <div class="col-lg-5 mb-4 mb-lg-0">
+                      <a href="javascript:void(0)" onclick="openModal('{{ url_for('static', filename='img/about/1.jpg') }}')">
                         <img src="{{ url_for('static', filename='img/about/1.jpg') }}" alt="Найденная кошка" class="pet-image img-fluid">
+                    </a>
                     </div>
                     <div class="col-lg-7">
                         <div class="pet-info">
@@ -756,8 +1091,8 @@
                                 <div>
                                     <strong>Описание:</strong><br>
                                     Ласковая, ухоженная кошка, предположительно домашняя.<br>
-                                    Окрас: двухцветная (белый и рыжий)<br>
-                                    Глаза: зелёные<br>
+                                    Окрас: двухцветная (белый и черный)<br>
+                                    Глаза: голубые<br>
                                     На шее — красный ошейник без жетона<br>
                                     Очень доверчивая, не боится людей, просится на руки
                                 </div>
@@ -790,7 +1125,13 @@
                   </div>
                   <div class="mb-3">
                       <label for="images" class="form-label">Загрузить изображения:</label>
-                      <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+                      <br>
+                      <input type="file" class="form-control-file" id="images" name="images" multiple accept="image/*">
+                      <label for="images" class="custom-file-upload">
+                          <i class="fas fa-camera"></i>
+                          <span class="file-upload-text">Выберите фотографии</span>
+                      </label>
+<div id="file-names" class="mt-2" style="color: #b0b0b0; font-size: 0.9rem;"></div>
                   </div>
                   <button type="submit" class="btn-comment">
                       <i class="far fa-paper-plane me-2"></i>Отправить комментарий
@@ -837,7 +1178,7 @@
                       {% if review.images.count() > 0 %}
                           <div class="comment-images">
                               {% for image in review.images %}
-                                  <a href="{{ url_for('static', filename='uploads/' + image.filename) }}" data-lightbox="review-images-{{ review.id }}">
+                                  <a href="javascript:void(0)" onclick="openModal('{{ url_for('static', filename='uploads/' + image.filename) }}')">
                                       <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" class="comment-image" alt="Изображение комментария">
                                   </a>
                               {% endfor %}
@@ -1010,6 +1351,70 @@
       }
   })(jQuery); 
       </script> 
+
+
+<div id="customModal" class="custom-modal">
+  <div class="modal-content">
+    <div class="modal-glow"></div>
+    <img id="modalImage" class="modal-image" src="" alt="">
+    <button class="modal-close" onclick="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
+
+      <script>
+        function openModal(imageSrc) {
+          const modal = document.getElementById('customModal');
+          const modalImage = document.getElementById('modalImage');
+          
+          modalImage.src = imageSrc;
+          modal.classList.add('active');
+          document.body.classList.add('modal-open');
+          
+          document.addEventListener('keydown', handleModalKeydown);
+        }
+        
+        function closeModal() {
+          const modal = document.getElementById('customModal');
+          
+          modal.classList.remove('active');
+          document.body.classList.remove('modal-open');
+          
+          document.removeEventListener('keydown', handleModalKeydown);
+        }
+        
+        function handleModalKeydown(e) {
+          if (e.key === 'Escape') {
+            closeModal();
+          }
+        }
+        
+        document.getElementById('customModal').addEventListener('click', function(e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+      
+          document.getElementById('images').addEventListener('change', function(e) {
+              const fileNames = document.getElementById('file-names');
+              const files = e.target.files;
+              
+              if (files.length > 0) {
+                  let names = [];
+                  for (let i = 0; i < files.length; i++) {
+                      names.push(files[i].name);
+                  }
+                  fileNames.innerHTML = '<i class="fas fa-check-circle" style="color: #0077ff;"></i> Выбрано файлов: ' + files.length + '<br><small>' + names.join(', ') + '</small>';
+                  document.querySelector('.file-upload-text').textContent = 'Изменить фотографии';
+              } else {
+                  fileNames.innerHTML = '';
+                  document.querySelector('.file-upload-text').textContent = 'Выберите фотографии';
+              }
+          });
+          </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
