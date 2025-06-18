@@ -10,8 +10,6 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.min.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" integrity="sha512-k2GFCTbXQgca6ys2/+sahWVaaZChE5npEQNLvI9YsmvaIRVXoPJVETXDBXWViTNV1fEb6eh7OVvRYYrniODJow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title>{% block title %}НАХОДКА{% endblock %}</title>
@@ -1067,8 +1065,10 @@
               <div class="pet-body">
                   <div class="row">
                       <div class="col-lg-5 mb-4 mb-lg-0">
-                          <img src="{{ url_for('static', filename='img/about/3.jpg') }}" alt="Нашли кольцо" class="pet-image img-fluid">
-                      </div>
+                        <a href="javascript:void(0)" onclick="openModal('{{ url_for('static', filename='img/about/3.jpg') }}')">
+                          <img src="{{ url_for('static', filename='img/about/3.jpg') }}" alt="" class="pet-image img-fluid">
+                      </a>
+                    </div>
                       <div class="col-lg-7">
                           <div class="pet-info">
                               <div class="pet-info-item">
@@ -1122,7 +1122,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="images" class="form-label">Загрузить изображения:</label>
-                        <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+                        <br>
+                        <input type="file" class="form-control-file" id="images" name="images" multiple accept="image/*">
+                        <label for="images" class="custom-file-upload">
+                            <i class="fas fa-camera"></i>
+                            <span class="file-upload-text">Выберите фотографии</span>
+                        </label>
+                        <div id="file-names" class="mt-2" style="color: #b0b0b0; font-size: 0.9rem;"></div>
                     </div>
                     <button type="submit" class="btn-comment">
                         <i class="far fa-paper-plane me-2"></i>Отправить комментарий
@@ -1169,7 +1175,7 @@
                         {% if review.images.count() > 0 %}
                             <div class="comment-images">
                                 {% for image in review.images %}
-                                    <a href="{{ url_for('static', filename='uploads/' + image.filename) }}" data-lightbox="review-images-{{ review.id }}">
+                                    <a href="javascript:void(0)" onclick="openModal('{{ url_for('static', filename='uploads/' + image.filename) }}')">
                                         <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" class="comment-image" alt="Изображение комментария">
                                     </a>
                                 {% endfor %}
@@ -1311,37 +1317,98 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
-<script>
+<div id="customModal" class="custom-modal">
+  <div class="modal-content">
+    <div class="modal-glow"></div>
+    <img id="modalImage" class="modal-image" src="" alt="">
+    <button class="modal-close" onclick="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
 
-  (function($) { "use strict";
+
+      <script>
+        function openModal(imageSrc) {
+          const modal = document.getElementById('customModal');
+          const modalImage = document.getElementById('modalImage');
+          
+          modalImage.src = imageSrc;
+          modal.classList.add('active');
+          document.body.classList.add('modal-open');
+          
+          document.addEventListener('keydown', handleModalKeydown);
+        }
+        
+        function closeModal() {
+          const modal = document.getElementById('customModal');
+          
+          modal.classList.remove('active');
+          document.body.classList.remove('modal-open');
+          
+          document.removeEventListener('keydown', handleModalKeydown);
+        }
+        
+        function handleModalKeydown(e) {
+          if (e.key === 'Escape') {
+            closeModal();
+          }
+        }
+        
+        document.getElementById('customModal').addEventListener('click', function(e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
       
-
+          document.getElementById('images').addEventListener('change', function(e) {
+              const fileNames = document.getElementById('file-names');
+              const files = e.target.files;
+              
+              if (files.length > 0) {
+                  let names = [];
+                  for (let i = 0; i < files.length; i++) {
+                      names.push(files[i].name);
+                  }
+                  fileNames.innerHTML = '<i class="fas fa-check-circle" style="color: #0077ff;"></i> Выбрано файлов: ' + files.length + '<br><small>' + names.join(', ') + '</small>';
+                  document.querySelector('.file-upload-text').textContent = 'Изменить фотографии';
+              } else {
+                  fileNames.innerHTML = '';
+                  document.querySelector('.file-upload-text').textContent = 'Выберите фотографии';
+              }
+          });
+        
+          
+  (function($) { "use strict";
     document.getElementsByTagName("body")[0].addEventListener("mousemove", function(n) {
-        t.style.left = n.clientX + "px", 
-    t.style.top = n.clientY + "px", 
-    e.style.left = n.clientX + "px", 
-    e.style.top = n.clientY + "px", 
-    i.style.left = n.clientX + "px", 
-    i.style.top = n.clientY + "px"
+      t.style.left = n.clientX + "px", 
+      t.style.top = n.clientY + "px", 
+      e.style.left = n.clientX + "px", 
+      e.style.top = n.clientY + "px", 
+      i.style.left = n.clientX + "px", 
+      i.style.top = n.clientY + "px"
     });
+    
     var t = document.getElementById("cursor"),
         e = document.getElementById("cursor2"),
         i = document.getElementById("cursor3");
+        
     function n(t) {
-        e.classList.add("hover"), i.classList.add("hover")
+      e.classList.add("hover"), i.classList.add("hover")
     }
     function s(t) {
-        e.classList.remove("hover"), i.classList.remove("hover")
+      e.classList.remove("hover"), i.classList.remove("hover")
     }
     s();
     for (var r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
-        o(r[a])
+      o(r[a])
     }
     function o(t) {
-        t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
+      t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
     }
-})(jQuery); 
-    </script> 
+  })(jQuery); 
+</script>  
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
