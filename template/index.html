@@ -25,6 +25,8 @@
     </div>
 
 
+    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             createSearchParticles();
@@ -192,6 +194,76 @@
             setTimeout(updateProgress, 50);
           }
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const menuToggle = document.getElementById('menuToggle');
+          const headerNav = document.getElementById('headerNav');
+          const menuOverlay = document.getElementById('menuOverlay');
+          
+          headerNav.classList.remove('active');
+          menuOverlay.classList.remove('active');
+          
+          function toggleMenu() {
+            console.log('Toggle menu clicked'); 
+            headerNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+          }
+          
+          function closeMenu() {
+            headerNav.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.classList.remove('menu-open');
+          }
+          
+          if (menuToggle) {
+            const newMenuToggle = menuToggle.cloneNode(true);
+            menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+            
+            newMenuToggle.addEventListener('click', toggleMenu, true);
+            
+            newMenuToggle.addEventListener('touchstart', function(e) {
+              e.preventDefault();
+              toggleMenu();
+            }, true);
+          }
+          
+          if (menuOverlay) {
+            const newMenuOverlay = menuOverlay.cloneNode(true);
+            menuOverlay.parentNode.replaceChild(newMenuOverlay, menuOverlay);
+            newMenuOverlay.addEventListener('click', closeMenu, true);
+            newMenuOverlay.addEventListener('touchstart', function(e) {
+              e.preventDefault();
+              closeMenu();
+            }, true);
+          }
+          
+          const navLinks = document.querySelectorAll('.nav__link');
+          navLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+              setTimeout(closeMenu, 100);
+            });
+          });
+          
+          const header = document.querySelector('.site-header');
+          const scrollThreshold = 100;
+          
+          if (window.scrollY <= scrollThreshold) {
+            header.classList.remove('sticky');
+          } else {
+            header.classList.add('sticky');
+          }
+          
+          window.addEventListener('scroll', function() {
+            if (window.scrollY > scrollThreshold) {
+              header.classList.add('sticky');
+            } else {
+              header.classList.remove('sticky');
+            }
+          });
+        });
+      </script>
     <div class="help-icon hover-target">
         <i class="fas fa-comments"></i>
     </div>
@@ -748,7 +820,7 @@ document.getElementById('chat-form').addEventListener('submit', function(e) {
                     </div>
                     <div class="card__content">
                         <h2 class="card__title">Пропала кошка</h2>
-                        <p class="card__description">Пропала рыжая кошка с белыми лапками по улице Большой Разночинной. Отзывается на кличку "Муся".</p>
+                        <p class="card__description">Пропала сиамская кошка с белыми лапками по улице Большой Разночинной. Отзывается на кличку "Муся".</p>
                         <div class="card__price">По договоренности</div>
                         <div class="card__footer">
                             <span class="card__date">Опубликовано: 05.04.2025</span>
@@ -768,7 +840,7 @@ document.getElementById('chat-form').addEventListener('submit', function(e) {
                     </div>
                     <div class="card__content">
                         <h2 class="card__title">Пропал велосипед</h2>
-                        <p class="card__description">Пропал горный велосипед синего цвета марки Trek. Был оставлен у ТЦ "Атлантик Сити".</p>
+                        <p class="card__description">Пропал горный велосипед черного цвета марки Trek. Был оставлен у ТЦ "Атлантик Сити".</p>
                         <div class="card__price">Вознаграждение!</div>
                         <div class="card__footer">
                             <span class="card__date">Опубликовано: 03.04.2025</span>
@@ -808,7 +880,7 @@ document.getElementById('chat-form').addEventListener('submit', function(e) {
                     </div>
                     <div class="card__content">
                         <h2 class="card__title">Пропал кошелек с деньгами</h2>
-                        <p class="card__description">Утерян кожаный кошелек синего цвета на Невском проспекте.</p>
+                        <p class="card__description">Утерян кожаный кошелек коричневого цвета на Невском проспекте.</p>
                         <div class="card__price">Вознаграждение гарантировано</div>
                         <div class="card__footer">
                             <span class="card__date">Опубликовано: 04.04.2025</span>
