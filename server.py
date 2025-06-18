@@ -1,3 +1,17 @@
+#    ╔═══════════════════════════════════════╗
+#    ║                                       ║
+#    ║        ▲     ▲     ▲     ▲            ║
+#    ║       / \   / \   / \   / \           ║
+#    ║      / A \ / M \ / R \ / I \          ║
+#    ║     /_____/_____/_____/_____\         ║
+#    ║                                       ║
+#    ║         Code with meaning.            ║
+#    ║                                       ║
+#    ║                                       ║
+#    ║           by: Amrikhudo               ║
+#    ╚═══════════════════════════════════════╝
+
+
 from flask import Flask, request, session, render_template, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -94,7 +108,7 @@ class ChatMessage(db.Model):
     user_session = db.Column(db.String(100), nullable=True)
     sender_type = db.Column(db.String(10), nullable=False)
     message = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now(datetime.UTC))
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
 class ReviewImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -131,9 +145,9 @@ def get_products():
         {'id': 1, 'name': 'Пропала кошка', 'price': 699},
         {'id': 2, 'name': 'Пропал велосипед', 'price': 649},
         {'id': 3, 'name': 'Нашла золотое кольцо', 'price': 499},
-        {'id': 4, 'name': 'Технолига', 'price': 499},
-        {'id': 5, 'name': 'Вечная мерзлота', 'price': 649},
-        {'id': 6, 'name': 'Подписка fornite crew', 'price': 699},
+        {'id': 4, 'name': 'Пропал кошелек с деньгами', 'price': 499},
+        {'id': 5, 'name': 'Нашёл зонтик', 'price': 649},
+        {'id': 6, 'name': 'Нашёл ноутбук Dell', 'price': 699},
     ]
     return jsonify(products)
 
@@ -294,7 +308,7 @@ def create_admin():
     if admin:
         return "Admin account already exists"
     
-    hashed_password = generate_password_hash('Bobojon123', method='pbkdf2:sha256')
+    hashed_password = generate_password_hash('Admin123', method='pbkdf2:sha256')
     admin = User(username='Amrikhudo', email='admin@example.com', password=hashed_password, is_admin=True)
     db.session.add(admin)
     db.session.commit()
@@ -515,7 +529,7 @@ def check_admin_answers():
 def create_super_admin():
     admin = User.query.filter_by(username='Amrikhudo').first()
     if not admin:
-        hashed_password = generate_password_hash('Bobojon123', method='pbkdf2:sha256')
+        hashed_password = generate_password_hash('Admin123', method='pbkdf2:sha256')
         admin = User(username='Amrikhudo', email='admin@example.com', password=hashed_password, is_admin=True, is_super_admin=True)
         db.session.add(admin)
         db.session.commit()
@@ -638,9 +652,9 @@ product_routes = {
     'Пропала кошка': 3,
     'Пропал велосипед': 4,
     'Нашла золотое кольцо': 5,
-    'Технолига': 6,
-    'Вечная мерзлота': 7,
-    'Подписка fornite crew': 8,
+    'Пропал кошелек с деньгами': 6,
+    'Нашёл зонтик': 7,
+    'Нашёл ноутбук Dell': 8,
     'Золотые руки': 9
 }
 
@@ -676,19 +690,19 @@ def index5():
 @app.route('/card5')
 def index6():
     user = get_authenticated_user()
-    reviews = get_product_reviews('Технолига')
+    reviews = get_product_reviews('Пропал кошелек с деньгами')
     return render_template('index6.html', user=user, reviews=reviews)
 
 @app.route('/card6')
 def index7():
     user = get_authenticated_user()
-    reviews = get_product_reviews('Вечная мерзлота')
+    reviews = get_product_reviews('Нашёл зонтик')
     return render_template('index7.html', user=user, reviews=reviews)
 
 @app.route('/card7')
 def index8():
     user = get_authenticated_user()
-    reviews = get_product_reviews('Подписка fornite crew')
+    reviews = get_product_reviews('Нашёл ноутбук Dell')
     return render_template('index8.html', user=user, reviews=reviews)
 
 @app.route('/card8')
