@@ -65,7 +65,6 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     is_super_admin = db.Column(db.Boolean, default=False)
-    cart = db.relationship('Cart', backref='user', lazy='select', uselist=False)
     reviews = db.relationship('Review', backref='user', lazy='dynamic')
 
 class UnansweredQuestion(db.Model):
@@ -79,17 +78,6 @@ class UnansweredQuestion(db.Model):
     user_seen = db.Column(db.Boolean, default=False)
     user_session = db.Column(db.String(100), nullable=True)  
 
-class Cart(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    items = db.relationship('CartItem', backref='cart', lazy='dynamic')
-
-class CartItem(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'), nullable=False)
-    currency = db.Column(db.String(80), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    quantity = db.Column(db.Integer, default=1)
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -119,14 +107,6 @@ class ReviewImage(db.Model):
 with app.app_context():
     db.create_all()
 
-prices = {
-    'Пропала кошка': 699,
-    'Пропал велосипед': 649,
-    'Нашла золотое кольцо': 499,
-    'Пропал кошелек с деньгами': 499,
-    'Нашёл зонтик': 649,
-    'Нашёл ноутбук Dell': 699,
-}
 
 def get_authenticated_user():
     if 'token' not in session:
@@ -165,30 +145,6 @@ def get_cart():
                   for item in cart.items]
     return jsonify(cart_items)
 
-@app.route('/api/cart/add', methods=['POST'])
-def add_to_cart_api():
-    user = get_authenticated_user()
-    if not user:
-        return jsonify({'error': 'Unauthorized'}), 401
-
-    cart = user.cart
-    if cart is None:
-        cart = Cart(user_id=user.id)
-        db.session.add(cart)
-        db.session.commit()
-
-    product_name = request.json.get('name')
-    price = prices.get(product_name, 0)
-
-    item = CartItem.query.filter_by(cart_id=cart.id, currency=product_name).first()
-    if item:
-        item.quantity += 1
-    else:
-        item = CartItem(cart_id=cart.id, currency=product_name, price=price)
-        cart.items.append(item)
-    db.session.commit()
-
-    return jsonify({'message': 'Product added to cart'}), 200
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -223,9 +179,6 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    cart = Cart(user_id=new_user.id)
-    db.session.add(cart)
-    db.session.commit()
 
     return redirect(url_for('login'))
 
@@ -313,9 +266,6 @@ def create_admin():
     db.session.add(admin)
     db.session.commit()
     
-    cart = Cart(user_id=admin.id)
-    db.session.add(cart)
-    db.session.commit()
     
     return "Admin account created successfully"
 
@@ -534,9 +484,6 @@ def create_super_admin():
         db.session.add(admin)
         db.session.commit()
         
-        cart = Cart(user_id=admin.id)
-        db.session.add(cart)
-        db.session.commit()
         
         return "Super Admin account created successfully"
     else:
@@ -566,71 +513,6 @@ def admin_dashboard():
         answered_questions=answered_questions
     )
 
-@app.route('/add_to_cart/<currency>', methods=['POST'])
-def add_to_cart(currency):
-    user = get_authenticated_user()
-    if not user:
-        return redirect(url_for('login'))
-
-    cart = user.cart
-    if cart is None:
-        cart = Cart(user_id=user.id)
-        db.session.add(cart)
-        db.session.commit()
-
-    item = CartItem.query.filter_by(cart_id=cart.id, currency=currency).first()
-    if item:
-        item.quantity += 1
-    else:
-        price = prices.get(currency, 0)
-        item = CartItem(cart_id=cart.id, currency=currency, price=price)
-        cart.items.append(item)
-    db.session.commit()
-
-    return redirect(url_for('cart'))
-
-@app.route('/cart')
-def cart():
-    user = get_authenticated_user()
-    if not user:
-        return redirect(url_for('login'))
-
-    cart = user.cart
-    if cart is None:
-        cart = Cart(user_id=user.id)
-        db.session.add(cart)
-        db.session.commit()
-
-    total = sum(item.price * item.quantity for item in cart.items)
-    return render_template('cart.html', cart=cart, total=total)
-
-@app.route('/update_cart/<int:item_id>/<action>', methods=['POST'])
-def update_cart(item_id, action):
-    user = get_authenticated_user()
-    if not user:
-        return redirect(url_for('login'))
-
-    item = CartItem.query.get(item_id)
-    if action == 'increase':
-        item.quantity += 1
-    elif action == 'decrease':
-        item.quantity -= 1
-        if item.quantity <= 0:
-            db.session.delete(item)
-
-    db.session.commit()
-    return redirect(url_for('cart'))
-
-@app.route('/remove_from_cart/<int:item_id>', methods=['POST'])
-def remove_from_cart(item_id):
-    user = get_authenticated_user()
-    if not user:
-        return redirect(url_for('login'))
-
-    item = CartItem.query.get(item_id)
-    db.session.delete(item)
-    db.session.commit()
-    return redirect(url_for('cart'))
 
 @app.route('/')
 def index():
@@ -705,11 +587,6 @@ def index8():
     reviews = get_product_reviews('Нашёл ноутбук Dell')
     return render_template('index8.html', user=user, reviews=reviews)
 
-@app.route('/card8')
-def index9():
-    user = get_authenticated_user()
-    reviews = get_product_reviews('Золотые руки')
-    return render_template('index9.html', user=user, reviews=reviews)
 
 if __name__ == '__main__':
     app.run(debug=True)
