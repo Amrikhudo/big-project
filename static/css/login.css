@@ -561,52 +561,75 @@ input:focus + .input-icon {
 	margin-bottom: 15px;
   }
   
-  .footer__form {
-	display: flex;
-	position: relative;
-  }
-  
-  .footer__form input {
-	width: 100%;
-	padding: 10px 15px;
-	background-color: rgba(255, 255, 255, 0.1);
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 30px;
-	color: #fff;
-	outline: none;
-	transition: all 0.3s ease;
-  }
-  
-  .footer__form input:focus {
-	border-color: #0077ff;
-	background-color: rgba(255, 255, 255, 0.15);
-  }
-  
-  .footer__form input::placeholder {
-	color: rgba(255, 255, 255, 0.5);
-  }
-  
-  .footer__form button {
-	position: absolute;
-	right: 5px;
-	top: 5px;
-	background-color: #0077ff;
-	color: #fff;
-	border: none;
-	border-radius: 50%;
-	width: 30px;
-	height: 30px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-	transition: all 0.3s ease;
-  }
-  
-  .footer__form button:hover {
-	background-color: #0056b3;
-	transform: scale(1.1);
-  }
+/* Исправленные стили для формы в футере */
+.footer__form {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.footer__form:focus-within {
+  border-color: #0077ff;
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.2);
+}
+
+.footer__form input {
+  flex: 1;
+  padding: 12px 15px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+}
+
+.footer__form input:focus {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.footer__form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer__form button {
+  position: static;
+  background: linear-gradient(135deg, #0077ff, #00a2ff);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.footer__form button:hover {
+  background: linear-gradient(135deg, #0056b3, #0080cc);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 119, 255, 0.4);
+}
+
+.footer__form button:active {
+  transform: scale(0.95);
+}
+
+.footer__form button i {
+  font-size: 14px;
+}
+
   
   .footer__bottom {
 	display: flex;
