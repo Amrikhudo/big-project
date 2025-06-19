@@ -81,6 +81,23 @@
                 createParticle(container);
             }, lifespan);
         }
+
+
+function initParticles() {
+    const particlesContainer = document.getElementById('particles');
+    if (particlesContainer) {
+        for (let i = 0; i < 15; i++) {
+            createParticle(particlesContainer);
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    createSearchParticles();
+    simulateProgress();
+    initParticles(); 
+
+});
     </script>
     <div class="preloader">
         <div class="preloader__container">
@@ -264,13 +281,14 @@
           });
         });
       </script>
-    <div class="help-icon hover-target">
-        <i class="fas fa-comments"></i>
+      <div class="help-icon hover-target">
+        <i class="fas fa-comments chat-icon"></i>
+        <i class="fas fa-times close-icon" style="display: none;"></i>
     </div>
     
     <div class="help-popup">
         <div class="help-popup-header">
-            <div>
+            <div class="help-popup-header-info">
                 <h3>Помощник</h3>
                 <div class="bot-status">
                     <span class="status-indicator"></span>
@@ -279,6 +297,7 @@
             </div>
             <span class="help-popup-close">&times;</span>
         </div>
+        
         <div class="help-popup-body">
             <div class="help-messages">
             </div>
